@@ -1,0 +1,14 @@
+- name: Post license key
+  uri:
+    url: https://localhost/api/v2/config/
+    method: POST
+    user: admin
+    password: "{{ ansible_tower_admin_password | mandatory }}"
+    body: "{{ ansible_tower_license_body | mandatory }}"
+    body_format: json
+    validate_certs: False
+    force_basic_auth: yes
+
+- name: remove the rabbitmq guest user
+  command: rabbitmqctl delete_user guest
+  become: true

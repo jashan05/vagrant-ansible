@@ -1,0 +1,12 @@
+{{ postgresql_data_backup_location }}/db-backup.sql.gz{
+  dateext
+  hourly
+  missingok
+  rotate 24
+  nocompress
+  nocreate
+  postrotate
+    pg_dumpall > {{ postgresql_data_backup_location }}/db-backup.sql
+    gzip {{ postgresql_data_backup_location }}/db-backup.sql
+  endscript
+}

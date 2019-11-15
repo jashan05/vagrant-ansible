@@ -1,0 +1,9 @@
+---
+
+ansible_tower_yumrepo_setupbundle_dir: ""
+ansible_tower_yumrepo_keys:
+- 'RPM-GPG-KEY-EPEL-7'
+- 'RPM-GPG-KEY-PGDG-96'
+- 'RPM-GPG-KEY-ansible-release'
+- 'RPM-GPG-KEY-rabbitmq'
+ansible_tower_yumrepo_install_folder: "/var/lib/tower-bundle"

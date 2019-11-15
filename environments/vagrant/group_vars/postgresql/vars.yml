@@ -1,0 +1,5 @@
+
+postgresql_database: "awx"
+postgresql_username: "awx"
+postgresql_password: "password"
+postgresql_allowed_ipv4: "192.168.33.1/24"

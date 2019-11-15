@@ -1,0 +1,14 @@
+---
+
+ansible_tower_admin_password: "{{ vault_ansible_tower_admin_password }}"
+ansible_tower_pg_password: "{{ vault_postgresql_password }}"
+ansible_tower_rabbitmq_password: "{{ vault_ansible_tower_rabbitmq_password }}"
+
+## variables for License key
+ansible_tower_license_body: "{{ vault_ansible_tower_license_body }}"
+
+#ssh_authentication: "ANSIBLE_HOST_KEY_CHECKING=False"
+ansible_tower_postgres_host: "192.168.33.202"
+ansible_tower_postgres_port: "5432"
+ansible_tower_postgres_log_dir: "/var/log/postgresql"
+ansible_tower_setup_args: "-e 'ansible_user=vagrant' -e 'ansible_ssh_private_key_file=/home/vagrant/.ssh/id_rsa' -e 'ansible_become=yes'"

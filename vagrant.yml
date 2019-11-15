@@ -1,0 +1,16 @@
+---
+
+ - hosts: tower
+   roles:
+     - cms-ansible-tower-simulate
+     - ansible-tower-cms-prereq
+     - ansible-tower-setupbundle
+     - ansible-tower
+
+ - hosts: postgresql
+   roles:
+     - cms-postgresql-simulate
+     - ansible-tower-postgresql-cms-prereq
+     - ansible-tower-setupbundle
+     - ansible-tower-yumrepo
+     - postgresql

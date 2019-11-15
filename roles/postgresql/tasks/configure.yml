@@ -1,0 +1,72 @@
+---
+
+- name: Update postgresql authentication settings
+  template:
+    dest: '{{ postgresql_hba_location }}'
+    owner: postgres
+    src: postgresql_hba.conf.j2
+  register: postgresql_hba_conf
+  when: postgresql_allowed_ipv4 is defined
+  become: True
+
+- name: Configure Postgres logging directory
+  lineinfile:
+    path: "{{ postgresql_conf_dir }}/postgresql.conf"
+    regexp: "^log_directory = 'pg_log'"
+    line: "log_directory = '{{ postgresql_log_dir | mandatory }}'"
+  register: postgresql_logging_conf
+  become: True
+
+- name: Configure tower listener on Postgres
+  lineinfile:
+    path: "{{ postgresql_conf_dir }}/postgresql.conf"
+    regexp: "^listen_addresses = "
+    line: "listen_addresses = '*'"
+  register: postgresql_logging_conf
+  become: True
+
+- name: restart postgresql when authentication settings changed
+  service:
+    name: '{{ postgresql_service_name }}'
+    state: restarted
+  when: postgresql_hba_conf|changed or postgresql_logging_conf is changed
+  register: postgresql_restart
+  become: True
+
+- name: wait for postgresql restart
+  wait_for:
+    host: localhost
+    port: 5432
+  when: postgresql_restart|changed
+
+- name: configure postgresql to start automatically
+  service:
+    name: '{{ postgresql_service_name }}'
+    enabled: yes
+  become: True
+
+- name: create the postgres user and set the password
+  postgresql_user:
+    name: "{{ postgresql_username }}"
+    password: "{{ postgresql_password }}"
+  become: True
+  become_user: postgres
+  when: "postgresql_username is defined and postgresql_username != '' and postgresql_password is defined and postgresql_password != ''"
+
+- name: create the postgresql database
+  postgresql_db:
+    name: "{{ postgresql_database }}"
+    owner: "{{ postgresql_username }}"
+    state: present
+    login_user: postgres
+  become: True
+  become_user: postgres
+  when: "postgresql_username is defined and postgresql_username != '' and postgresql_database is defined and postgresql_database != ''"
+
+- name: Create an empty backup file
+  file:
+    path: "{{ postgresql_data_backup_location }}/db-backup.sql.gz"
+    owner: "{{ postgres.localuser }}"
+    group: "{{ postgres.localgroup }}"
+    state: touch
+    mode: 0640

@@ -1,0 +1,11 @@
+---
+ansible_user: "vagrant"
+
+ansible_tower_setupbundle_version: "3.3.3-1"
+ansible_tower_setupbundle_download_username: "{{ vault_ansible_tower_download_username }}"
+ansible_tower_setupbundle_download_password: "{{ vault_ansible_tower_download_password }}"
+
+ansible_tower_yumrepo_setupbundle_dir: "{{ ansible_tower_setupbundle_directory }}"
+
+## Temp directory for ansible-tower 
+ansible_tower_setupbundle_staging_dir: "/var/tmp"

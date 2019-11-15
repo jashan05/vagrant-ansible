@@ -1,0 +1,26 @@
+---
+
+- name: Install yum repo keys
+  copy:
+    src: '{{ item }}'
+    dest: '/etc/pki/rpm-gpg/{{ item }}'
+  with_items: "{{ ansible_tower_yumrepo_keys }}"
+  become: True
+
+- name: Remove old bundle packages source directory
+  file:
+    path: "{{ ansible_tower_yumrepo_install_folder }}"
+    state: absent
+  become: True
+
+- name: Copy bundle packages to repo source directory
+  copy:
+    src: "{{ ansible_tower_yumrepo_setupbundle_dir | mandatory }}/bundle/repos/"
+    dest: "{{ ansible_tower_yumrepo_install_folder }}"
+  become: True
+
+- name: Activate the Tower repository
+  template:
+    src: ansible-tower.repo.j2
+    dest: /etc/yum.repos.d/ansible-tower.repo
+  become: True

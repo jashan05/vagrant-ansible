@@ -1,0 +1,8 @@
+---
+
+ansible_tower_setupbundle_version: ""
+ansible_tower_setupbundle_filename: "ansible-tower-{{ansible_tower_setupbundle_version}}-linux-x64.tar.gz"
+ansible_tower_setupbundle_download_url: "{{ ansible_tower_setupbundle_version }}/{{ ansible_tower_setupbundle_filename }}"
+ansible_tower_setupbundle_staging_dir: "/opt/tower"
+ansible_tower_setupbundle_download_username: ""
+ansible_tower_setupbundle_download_password: ""

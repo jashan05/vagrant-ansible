@@ -1,0 +1,25 @@
+#! /usr/bin/python
+import collections
+import datetime
+import subprocess
+import json
+start_date = datetime.datetime.now().isoformat()
+return_code = 0
+out = ""
+try:
+    logrotate_output = subprocess.check_output(["/usr/sbin/logrotate",
+                                   "-f", "{{ postgresql_logrotate_conf_location }}",
+                                   "-s", "/var/tmp/logrotate.status", "-v"],
+                                  stderr=subprocess.STDOUT,
+                                  universal_newlines=True)
+except subprocess.CalledProcessError, e:
+    logrotate_output = e.output
+    return_code = e.returncode
+logline = collections.OrderedDict([
+    ('start_date', start_date),
+    ('exit_code', return_code),
+    ('end_date', datetime.datetime.now().isoformat()),
+    ('output', logrotate_output)])
+with open("{{ postgresql_log_dir }}/pg_backup.log", "a") as log:
+    json.dump(logline, log)
+    log.write('\n')

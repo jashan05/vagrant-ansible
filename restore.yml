@@ -1,0 +1,22 @@
+---
+
+- hosts: postgresql
+  tasks:
+  - name: drop table in database
+    command: /usr/pgsql-9.6/bin/psql -c "DROP DATABASE awx;"
+    args:
+      chdir: /usr/pgsql-9.6/bin/
+    register: drop_table_all
+    become: yes
+    become_user: postgres
+
+  - name : display drop table output
+    debug: msg="{{ drop_table_all.stdout }}"
+
+  - name: restore end-of-day backup
+    command: /usr/pgsql-9.6/bin/pgsql_backup_restore.sh
+    args:
+      chdir: /usr/pgsql-9.6/bin/
+    register: restore_backup
+    become: yes
+    become_user: postgres

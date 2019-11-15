@@ -1,0 +1,19 @@
+---
+
+postgresql_packages: "postgresql96-server, postgresql96-contrib, python-psycopg2, python-setuptools, libselinux-python, setools-libs, yum-utils, sudo, acl"
+postgresql_bin_dir: "/usr/pgsql-9.6/bin"
+postgresql_install_dir: "/var/lib/pgsql/9.6"
+postgresql_log_dir: "/var/log/postgresql"
+postgresql_service_name: 'postgresql-9.6'
+
+postgresql_conf_dir: "{{ postgresql_install_dir }}/data"
+postgresql_conf_location: "{{ postgresql_conf_dir }}/postgresql.conf"
+postgresql_hba_location: "{{ postgresql_conf_dir }}/pg_hba.conf"
+postgresql_logrotate_conf_location: "{{ postgresql_conf_dir }}/pgsql_backup.conf"
+postgresql_data_backup_location: "/data/postgresql/backup"
+
+postgresql_initdb_command: '/usr/pgsql-9.6/bin/postgresql96-setup initdb'
+
+postgresql_database: ""
+postgresql_username: ""
+postgresql_password: ""

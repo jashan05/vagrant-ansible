@@ -1,0 +1,20 @@
+---
+
+- name: Download file from a file path
+  get_url:
+    url: "{{ ansible_tower_setupbundle_download_url | mandatory }}"
+    dest: "{{ ansible_tower_setupbundle_staging_dir | mandatory }}/{{ ansible_tower_setupbundle_filename | mandatory }}"
+    url_username: "{{ ansible_tower_setupbundle_download_username | mandatory }}"
+    url_password: "{{ ansible_tower_setupbundle_download_password | mandatory }}"
+    validate_certs: False
+
+- name: Extract the archive
+  unarchive:
+    src: "{{ ansible_tower_setupbundle_staging_dir }}/{{ ansible_tower_setupbundle_filename}}"
+    dest: "{{ ansible_tower_setupbundle_staging_dir }}"
+    remote_src: True
+    creates: "{{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version | mandatory }}.el7"
+
+- name: Register Tower setupbundle staging directory
+  set_fact:
+    ansible_tower_setupbundle_directory: "{{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version }}.el7"

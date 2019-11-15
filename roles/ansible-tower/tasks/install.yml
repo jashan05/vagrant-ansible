@@ -1,0 +1,7 @@
+---
+
+- name: Run the setup bundle installer
+  shell: "{{ ansible_tower_setup_env_vars }} {{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version }}.el7/setup.sh {{ ansible_tower_setup_args }}"
+  args:
+    chdir: "{{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version }}.el7"
+  become: True

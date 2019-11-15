@@ -1,0 +1,23 @@
+ ansible-tower-service status
+ ansible-tower-service stop
+
+psql
+\l
+
+SELECT * FROM pg_stat_activity WHERE datname = 'awx';
+Optional if some processes arre running -    SELECT pg_terminate_backend (pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'awx'
+ 	
+DROP DATABASE awx;
+
+psql -f /data/postgresql/backup/db-backup.sql.gz-2018110209
+
+\q
+
+service postgresql-9.6 restart
+
+Login to postgres server
+
+ run 'service postgresql-9.6 status' to check the status of the service
+
+ stop the service - 
+

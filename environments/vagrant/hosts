@@ -1,0 +1,7 @@
+tower:
+  hosts:
+     192.168.33.200:
+
+postgresql:
+  hosts:
+     192.168.33.202:

@@ -1,0 +1,31 @@
+---
+
+- name: copying the backup script
+  template:
+    src: pgsql_backup.py.j2
+    dest: "{{ postgresql_bin_dir }}/pgsql_backup.py"
+    owner: "{{ postgres.localuser }}"
+    group: "{{ postgres.localgroup }}"
+    mode: 0750
+
+- name: copying the backup restore script
+  template:
+    src: pgsql_backup_restore.sh.j2
+    dest: "{{ postgresql_bin_dir }}/pgsql_backup_restore.sh"
+    owner: "{{ postgres.localuser }}"
+    group: "{{ postgres.localgroup }}"
+    mode: 0750
+
+- name: setting logrotation configuration
+  template:
+    src: pgsql_backup.conf.j2
+    dest: "{{ postgresql_logrotate_conf_location }}"
+    owner: "{{ postgres.localuser }}"
+    group: "{{ postgres.localgroup }}"
+    mode: 0640
+
+- cron:
+    name: "a job for backup"
+    special_time: daily
+    job: "{{ postgresql_bin_dir }}/pgsql_backup.py"
+    user: "{{ postgres.localuser }}"

@@ -1,0 +1,8 @@
+#!/bin/bash
+gunzip < {{ postgresql_data_backup_location }}/db-backup.sql.gz > {{ postgresql_data_backup_location }}/db-backup.sql
+psql -f {{ postgresql_data_backup_location }}/db-backup.sql >> {{ postgresql_log_dir }}/restore.log
+if [ $? -eq 0 ]
+then
+    echo 'Backup restore completed'
+    rm -rf {{ postgresql_data_backup_location }}/db-backup.sql
+fi

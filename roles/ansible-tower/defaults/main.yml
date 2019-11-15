@@ -1,0 +1,14 @@
+---
+
+ansible_tower_version: ""
+ansible_tower_staging_dir: ""
+
+## Following vars need to be there in group_vars and for passwords it should be in vault.
+ansible_tower_setup_args: ""
+ansible_tower_admin_password: ""
+ansible_tower_pg_password: ""
+ansible_tower_rabbitmq_password: ""
+
+ansible_tower_license_body: ""
+
+ansible_tower_setup_env_vars: 'ANSIBLE_HOST_KEY_CHECKING=False'

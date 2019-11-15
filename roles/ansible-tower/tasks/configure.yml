@@ -1,0 +1,38 @@
+---
+- name: check - rabbitmq_password must not contain special characters
+  fail:
+    msg: 'rabbitmq_password may not contain special characters'
+  when: "ansible_tower_rabbitmq_password | regex_search('([^a-zA-Z0-9])')"
+
+- name: Configure pg_host
+  lineinfile:
+    path: "{{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version }}.el7/inventory"
+    regexp: "^pg_host=''"
+    line: "pg_host='{{ ansible_tower_postgres_host }}'"
+  when: ansible_tower_postgres_host is defined
+
+- name: Configure pg_port
+  lineinfile:
+    path: "{{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version }}.el7/inventory"
+    regexp: "^pg_port=''"
+    line: "pg_port='{{ ansible_tower_postgres_port }}'"
+  when: ansible_tower_postgres_port is defined
+
+- name: Configure Ansible Tower password
+  lineinfile:
+    path: "{{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version }}.el7/inventory"
+    regexp: "^admin_password=''"
+    line: "admin_password='{{ ansible_tower_admin_password }}'"
+
+- name: Configure PostgreSQL password
+  lineinfile:
+    path: "{{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version }}.el7/inventory"
+    regexp: "^pg_password=''"
+    line: "pg_password='{{ ansible_tower_pg_password }}'"
+
+- name: Configure RabbitMQ password
+  lineinfile:
+    path: "{{ ansible_tower_setupbundle_staging_dir }}/ansible-tower-setup-bundle-{{ ansible_tower_setupbundle_version }}.el7/inventory"
+    regexp: "^rabbitmq_password=''"
+    line: "rabbitmq_password='{{ ansible_tower_rabbitmq_password }}'"
+
